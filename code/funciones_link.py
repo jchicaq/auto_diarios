@@ -8,7 +8,6 @@
 # ----------------------------------------------------------------------
 
 # Importar las librerías necesarias
-from duckdb import df
 import pandas as pd
 from pathlib import Path
 
@@ -225,6 +224,12 @@ def columnas_numericas(df_inicial: pd.DataFrame,
     # Convertir a float
     for col in columnas_float:
         df[col] = pd.to_numeric(df[col], errors='coerce').astype(float)
+
+    # Contar valores nulos en cada columna transformada y reportar si hay alguno
+    for col in columnas_int + columnas_float:
+        num_nulos = df[col].isna().sum()
+        if num_nulos > 0:
+            print(f"La columna '{col}' de Links_diarios tiene {num_nulos} valores nulos.")
 
     return df
 

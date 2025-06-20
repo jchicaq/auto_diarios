@@ -13,6 +13,7 @@ import pandas as pd
 from pathlib import Path
 import funciones_link as flink
 import funciones_sql as fsql
+import funciones_partner as fpartner
 
 
 # Ruta del archivo CSV de links
@@ -66,24 +67,63 @@ cpar_activo_casino      = df_inicial_partner.columns[7]
 cpar_ftd_pasarela       = df_inicial_partner.columns[8]
 
 
+# Contar e imprimir la cantidad de filas vacías en la columna cpar_ftd_pasarela de df_inicial_partner
+num_filas_vacias = df_inicial_partner[cpar_ftd_pasarela].isna().sum()
+print(f"Número de filas vacías en la columna '{cpar_ftd_pasarela}': {num_filas_vacias}")
 
 # Se organizan las columnas del DataFrame inicial de link
 df_inicial_link = flink.convertir_fechas(df_inicial_link, clin_periodo)
 
 # se organizan las columnas del DataFrame inicial de partner
-def_inicial_partner = flink.convertir_fechas(df_inicial_partner, cpar_periodo)
+df_inicial_partner = flink.convertir_fechas(df_inicial_partner, cpar_periodo)
 
 
 
-# Se convierten las variables de la columna partnern y pais
+# Se convierten las variables de la columna partnern y pais de links
 df_link = flink.convertir_variables(df_inicial_link, clin_partner, clin_pais)
 
-# 
+# Se convierten las variables de la columna partnern y pais de partners
+df_partner = fpartner.convertir_partner_paises(df_inicial_partner, cpar_partner, cpar_pais)
+
 
 
 # Se convierten las columnas de tipo numérico a float
 df_link = flink.columnas_numericas(df_link, clin_registros, clin_ftd, clin_valor_ftd, clin_ftd_puntos_venta, clin_ftd_pasarela)
 
+# Se convierten las columnas de tipo numérico a int
+df_partner = fpartner.convertir_formato_numerico(df_partner, cpar_usuarios_nuevos, cpar_ftd, cpar_usuarios_deposito, cpar_activo_deportivas, cpar_activo_casino, cpar_ftd_pasarela)
+
+
 
 # Guardar el archivo CSV de links procesado en un archivo SQLite
 fsql.guardar_en_sqlite(df_link, tabla_links, ruta_db, if_exists="replace")
+
+# Guardar el archivo CSV de partner procesado en un archivo SQLite
+fsql.guardar_en_sqlite(df_partner, tabla_partner, ruta_db, if_exists="replace")
+
+
+
+
+
+
+
+"""
+# print("\nDataFrame inicial de partner:\n")
+# print(df_inicial_partner)
+
+
+# print(f"\n🔍 Valores únicos en la columna {cpar_partner}\n:")
+# print(df_inicial_partner[cpar_partner].unique())
+# print(f"Total de valores únicos: {df_inicial_partner[cpar_partner].nunique()}")
+# print(f"\nValores de {cpar_periodo} donde {cpar_partner} == 'vsft.tech':")
+# print("\n Busqueda de VSFT\n")
+# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "VSFT", cpar_pais].unique())
+# print("\n Busqueda de vsft.tech\n")
+# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "vsft.tech", cpar_pais].unique())
+# print("\n Busqueda de Virtualsoft\n")
+# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "Virtualsoft", cpar_pais].unique())
+
+# print(f"\n🔍 Valores únicos en la columna {cpar_pais}:")
+# print(df_inicial_partner[cpar_pais].unique())
+# print(f"Total de valores únicos: {df_inicial_partner[cpar_pais].nunique()}")
+"""
