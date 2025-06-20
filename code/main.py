@@ -67,10 +67,6 @@ cpar_activo_casino      = df_inicial_partner.columns[7]
 cpar_ftd_pasarela       = df_inicial_partner.columns[8]
 
 
-# Contar e imprimir la cantidad de filas vacías en la columna cpar_ftd_pasarela de df_inicial_partner
-num_filas_vacias = df_inicial_partner[cpar_ftd_pasarela].isna().sum()
-print(f"Número de filas vacías en la columna '{cpar_ftd_pasarela}': {num_filas_vacias}")
-
 # Se organizan las columnas del DataFrame inicial de link
 df_inicial_link = flink.convertir_fechas(df_inicial_link, clin_periodo)
 
