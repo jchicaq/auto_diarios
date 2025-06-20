@@ -103,23 +103,21 @@ fsql.guardar_en_sqlite(df_partner, tabla_partner, ruta_db, if_exists="replace")
 
 
 
-"""
-# print("\nDataFrame inicial de partner:\n")
-# print(df_inicial_partner)
 
+print("\nDataFrame inicial de partner:\n")
+print(df_inicial_partner)
+print(f"\n🔍 Valores únicos en la columna {cpar_partner}\n:")
+print(df_inicial_partner[cpar_partner].unique())
+print(f"Total de valores únicos: {df_inicial_partner[cpar_partner].nunique()}")
+print(f"\nValores de {cpar_periodo} donde {cpar_partner} == 'vsft.tech':")
+print("\n Busqueda de VSFT\n")
+print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "VSFT", cpar_pais].unique())
+print("\n Busqueda de vsft.tech\n")
 
-# print(f"\n🔍 Valores únicos en la columna {cpar_partner}\n:")
-# print(df_inicial_partner[cpar_partner].unique())
-# print(f"Total de valores únicos: {df_inicial_partner[cpar_partner].nunique()}")
-# print(f"\nValores de {cpar_periodo} donde {cpar_partner} == 'vsft.tech':")
-# print("\n Busqueda de VSFT\n")
-# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "VSFT", cpar_pais].unique())
-# print("\n Busqueda de vsft.tech\n")
-# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "vsft.tech", cpar_pais].unique())
-# print("\n Busqueda de Virtualsoft\n")
-# print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "Virtualsoft", cpar_pais].unique())
+print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "vsft.tech", cpar_pais].unique())
+print("\n Busqueda de Virtualsoft\n")
+print(df_inicial_partner.loc[df_inicial_partner[cpar_partner] == "Virtualsoft", cpar_pais].unique())
 
-# print(f"\n🔍 Valores únicos en la columna {cpar_pais}:")
-# print(df_inicial_partner[cpar_pais].unique())
-# print(f"Total de valores únicos: {df_inicial_partner[cpar_pais].nunique()}")
-"""
+print(f"\n🔍 Valores únicos en la columna {cpar_pais}:")
+print(df_inicial_partner[cpar_pais].unique())
+print(f"Total de valores únicos: {df_inicial_partner[cpar_pais].nunique()}")
